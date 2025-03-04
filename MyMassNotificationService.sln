@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMassNotificationService", "MyMassNotificationService\MyMassNotificationService.csproj", "{881C3CB8-2AB9-4E40-A358-536F0A23C979}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5B91DB49-360A-4CAB-B178-80923C4EE70A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{881C3CB8-2AB9-4E40-A358-536F0A23C979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881C3CB8-2AB9-4E40-A358-536F0A23C979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881C3CB8-2AB9-4E40-A358-536F0A23C979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881C3CB8-2AB9-4E40-A358-536F0A23C979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B91DB49-360A-4CAB-B178-80923C4EE70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B91DB49-360A-4CAB-B178-80923C4EE70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B91DB49-360A-4CAB-B178-80923C4EE70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B91DB49-360A-4CAB-B178-80923C4EE70A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

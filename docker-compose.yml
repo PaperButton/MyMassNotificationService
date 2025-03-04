@@ -1,0 +1,117 @@
+services:
+    zookeeper:
+        image: bitnami/zookeeper:latest
+        ports:
+          - "2181:2181"
+        environment:
+          - ALLOW_ANONYMOUS_LOGIN=yes
+        volumes:
+          - zookeeper_data:/bitnami/zookeeper
+        networks:
+            - app-network
+
+    kafka1:
+        image: bitnami/kafka:latest
+        ports:
+            - "9092:9092"
+        depends_on:
+            - zookeeper
+        environment:
+            - KAFKA_BROKER_ID=1
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka1:9092
+            - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+            - ALLOW_PLAINTEXT_LISTENER=yes
+        volumes:
+            - kafka1_data:/bitnami/kafka
+        networks:
+            - app-network
+
+    kafka2:
+        image: bitnami/kafka:latest
+        ports:
+            - "9093:9093"
+        depends_on:
+            - zookeeper
+        environment:
+            - KAFKA_BROKER_ID=2
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9093
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka2:9093
+            - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+            - ALLOW_PLAINTEXT_LISTENER=yes
+        volumes:
+            - kafka2_data:/bitnami/kafka
+        networks:
+            - app-network
+
+    kafka3:
+        image: bitnami/kafka:latest
+        ports:
+            - "9094:9094"
+        depends_on:
+            - zookeeper
+        environment:
+            - KAFKA_BROKER_ID=3
+            - KAFKA_CFG_LISTENERS=PLAINTEXT://:9094
+            - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka3:9094
+            - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+            - ALLOW_PLAINTEXT_LISTENER=yes
+        volumes:
+            - kafka3_data:/bitnami/kafka
+        networks:
+            - app-network
+
+    redis:
+        image: redis:latest
+        container_name: redis_container
+        ports:
+            - "6379:6379"
+        networks:
+            - app-network
+        volumes:
+            - ./TestWebApplication11CustomPastebin/Infrastracture/Caching/RedisConfiguration/redis.conf:/usr/local/etc/redis/redis.conf
+
+    mymassnotificationservice:
+        image: ${DOCKER_REGISTRY-}mymassnotificationservice
+        build:
+            context: .
+            dockerfile: MyMassNotificationService/Dockerfile
+        depends_on:
+          - kafka1
+          - kafka2
+          - kafka3
+          - redis
+        environment:
+          Kafka__BootstrapServers: kafka1:9092,kafka2:9093,kafka3:9094 
+        ports:
+          - "5000:5000"
+          - "5001:8081"
+        networks:
+            - app-network
+
+    kafkaUI:
+        image: provectuslabs/kafka-ui
+        ports:
+          - "9000:8080"
+        environment:
+          KAFKA_CLUSTERS_0_NAME: Local
+          KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:9092,kafka2:9093,kafka3:9094
+          KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+        restart: always
+        depends_on:
+          - kafka1
+          - kafka2
+          - kafka3
+          - zookeeper
+          - mymassnotificationservice
+        networks:
+            - app-network
+ 
+volumes:
+  zookeeper_data:
+  kafka1_data:
+  kafka2_data:
+  kafka3_data:
+
+networks:
+  app-network:

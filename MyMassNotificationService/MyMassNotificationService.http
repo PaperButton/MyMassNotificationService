@@ -1,0 +1,6 @@
+@MyMassNotificationService_HostAddress = http://localhost:5261
+
+GET {{MyMassNotificationService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
